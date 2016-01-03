@@ -1,0 +1,41 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * 
+ * @author kristof
+ * @ORM\Entity
+ * @ORM\Table(name="profile")
+ */
+class Profile
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+
+     * 
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $naam;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $omschrijving;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="User", mappedBy="profile")
+     */
+    
+    private $users;
+
+}
