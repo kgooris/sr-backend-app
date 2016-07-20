@@ -1,0 +1,521 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use AppBundle\Entity\DrankEenheid;
+
+
+/**
+ *
+ * @author kristof
+ * @ORM\Entity
+ * @ORM\Table(name="dranksoort")
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DrankSoortRepository")
+ */
+class DrankSoort
+{
+	private $tempfile;
+      /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", unique=true ,length=50)
+     */
+    private $naam;
+
+    /**
+     * @ORM\Column(type="string", nullable=true )
+     * 
+     */
+    private $omschrijving;
+    
+    /**
+     
+     * @Assert\File(
+     *     maxSize = "5M",
+     *     mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff"},
+     *     maxSizeMessage = "The maxmimum allowed file size is 5MB.",
+     *     mimeTypesMessage = "Only the filetypes image are allowed."
+     * ) 		
+     * 
+     */
+    private $file;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $fotopath;
+    
+    /**
+     * 
+     * @ORM\ManyToOne(targetEntity="DrankEenheid")
+     * @ORM\JoinColumn(name="drankeenheid_id", referencedColumnName="id", nullable=false)
+     */
+    private $eenheid;
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $smspositieid;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $stock;
+
+    /**
+     * @ORM\Column(type="integer", options={"default":0}, nullable=false)
+     */
+    private $rapportvolgorde;
+
+
+//    /**
+//     * @ORM\OneToMany(targetEntity="OrderDrank" , mappedBy="drank")
+//     * */
+//    protected $od;
+
+
+    /**
+     * created Time/Date
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    protected $createdAt;
+    
+    /**
+     * updated Time/Date
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    protected $updatedAt;
+
+    /**
+     * @return mixed
+     */
+    public function getRapportvolgorde()
+    {
+        return $this->rapportvolgorde;
+    }
+
+    /**
+     * @param mixed $rapportvolgorde
+     */
+    public function setRapportvolgorde($rapportvolgorde)
+    {
+        $this->rapportvolgorde = $rapportvolgorde;
+    }
+
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->getEenheid()->getNaam()." - ".$this->getNaam();
+    }
+
+    public function __construct()
+    {
+    	
+    	$this->eenheid = new ArrayCollection();
+    }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set naam
+     *
+     * @param string $naam
+     *
+     * @return DrankSoort
+     */
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    /**
+     * Get naam
+     *
+     * @return string
+     */
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    /**
+     * Set omschrijving
+     *
+     * @param string $omschrijving
+     *
+     * @return DrankSoort
+     */
+    public function setOmschrijving($omschrijving)
+    {
+        $this->omschrijving = $omschrijving;
+
+        return $this;
+    }
+
+    /**
+     * Get omschrijving
+     *
+     * @return string
+     */
+    public function getOmschrijving()
+    {
+        return $this->omschrijving;
+    }
+
+    /**
+     * Set file
+     *
+     * 
+     * @param UploadedFile $file
+     * @return DrankSoort
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        
+    	$this->file = $file;
+    	// check if we have an old image path
+    	if (isset($this->fotopath)) {
+    		// store the old name to delete after the update
+    		$this->tempfile = $this->fotopath;
+    		$this->fotopath = null;
+    	} else {
+    		$this->fotopath = 'initial';
+    	}
+    }
+
+    /**
+     * Get file
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set eenheidId
+     *
+     * @param integer $eenheidId
+     *
+     * @return DrankSoort
+     */
+    public function setEenheidId($eenheidId)
+    {
+        $this->eenheid_id = $eenheidId;
+
+        return $this;
+    }
+
+    /**
+     * Get eenheidId
+     *
+     * @return integer
+     */
+    public function getEenheidId()
+    {
+        return $this->eenheid_id;
+    }
+
+    /**
+     * Set smspositieid
+     *
+     * @param integer $smspositieid
+     *
+     * @return DrankSoort
+     */
+    public function setSmspositieid($smspositieid)
+    {
+        $this->smspositieid = $smspositieid;
+
+        return $this;
+    }
+
+    /**
+     * Get smspositieid
+     *
+     * @return integer
+     */
+    public function getSmspositieid()
+    {
+        return $this->smspositieid;
+    }
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return DrankSoort
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
+
+    /**
+     * Set eenheid
+     *
+     * @param integer $eenheid
+     *
+     * @return DrankSoort
+     */
+    public function setEenheid(DrankEenheid $eenheid)
+    {
+        $this->eenheid = $eenheid;
+
+        return $this;
+    }
+
+    /**
+     * Get eenheid
+     *
+     * @return DrankEenheid
+     */
+    public function getEenheid()
+    {
+        return $this->eenheid;
+    }
+    
+    /**
+     * Set createdAt
+     *
+     * @ORM\PrePersist
+    
+     */
+    public function setCreatedAt()
+    {
+    	$this->createdAt = new \DateTime();
+    	$this->updatedAt = new \DateTime();
+    
+    }
+    
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+    	return $this->createdAt;
+    }
+    
+    /**
+     * Set updatedAt
+     *
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+    	$this->updatedAt = new \DateTime();
+    
+    	return $this;
+    }
+    
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+    	return $this->updatedAt;
+    }
+    
+    
+    /**
+     * Called before saving the entity
+     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+    	if (null !== $this->getFile()) {
+    		// do whatever you want to generate a unique name
+    		$filename = sha1(uniqid(mt_rand(), true));
+    		//$path = dirname($this->foto);
+    		$this->fotopath = $filename.'.'.$this->getFile()->guessExtension();
+    	}
+    }
+    /**
+     * Called before entity removal
+     *
+     * @ORM\PreRemove()
+     */
+    public function removeUpload()
+    {
+    	if ($file = $this->getAbsolutePath()) {
+    		//unlink($file);
+    	}
+    }
+    /**
+     * Called after entity persistence
+     *
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+    	// The file property can be empty if the field is not required
+    	if (null === $this->getFile()) {
+    		return;
+    	}
+    
+    	// Use the original file name here but you should
+    	// sanitize it at least to avoid any security issues
+    
+    	// move takes the target directory and then the
+    	// target filename to move to
+    	
+    	$this->getFile()->move($this->getUploadRootDir(), $this->fotopath);
+    	// check if we have an old image
+    	if (isset($this->temp)) {
+    		// delete the old image
+    		unlink($this->getUploadRootDir().'/'.$this->temp);
+    		// clear the temp image path
+    		$this->temp = null;
+    	}
+    	$this->file = null;
+    	
+    	// Set the path property to the filename where you've saved the file
+    	//$this->fotopath = $this->getFile()->getClientOriginalName();
+    	//exit(\Doctrine\Common\Util\Debug::dump($this->fotopath));
+    	// Clean up the file property as you won't need it anymore
+    	//$this->file = null;
+    }
+    public function getAbsolutePath()
+    {
+    	// get path
+    	//$path = dirname($this->foto);
+    	return null === $this->fotopath
+    	? null
+    	: $this->getUploadRootDir().'/'.$this->fotopath;
+    }
+    
+    public function getWebPath()
+    {
+    	return null === $this->fotopath
+    	? null
+    	: $this->getUploadDir().'/'.$this->fotopath;
+    }
+    
+    protected function getUploadRootDir()
+    {
+    	// the absolute directory path where uploaded
+    	// documents should be saved
+    	return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+    
+    protected function getUploadDir()
+    {
+    	// get rid of the __DIR__ so it doesn't screw up
+    	// when displaying uploaded doc/image in the view.
+    	return 'uploads/images';
+    }
+    
+    public function addToStock($aantal)
+    {
+        $newstock = $this->getStock() + $aantal;
+        $this->setStock($newstock);
+    }
+    public function removeFromStock($aantal)
+    {
+        $newstock = $this->getStock() - $aantal;
+        $this->setStock($newstock);
+    }
+    /**
+     * Set fotopath
+     *
+     * @param string $fotopath
+     *
+     * @return DrankSoort
+     */
+    public function setFotopath($fotopath)
+    {
+        $this->fotopath = $fotopath;
+
+        return $this;
+    }
+
+    /**
+     * Get fotopath
+     *
+     * @return string
+     */
+    public function getFotopath()
+    {
+        return $this->fotopath;
+    }
+
+    /**
+     * Add od
+     *
+     * @param \AppBundle\Entity\OrderDrank $od
+     *
+     * @return DrankSoort
+     */
+    public function addOd(\AppBundle\Entity\OrderDrank $od)
+    {
+        $this->od[] = $od;
+
+        return $this;
+    }
+
+    /**
+     * Remove od
+     *
+     * @param \AppBundle\Entity\OrderDrank $od
+     */
+    public function removeOd(\AppBundle\Entity\OrderDrank $od)
+    {
+        $this->od->removeElement($od);
+    }
+
+    /**
+     * Get od
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOd()
+    {
+        return $this->od;
+    }
+}

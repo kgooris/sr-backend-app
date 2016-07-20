@@ -1,0 +1,75 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+
+<div class="col-sm-12 col-sm-offset-1 col-md-12 col-md-offset-1 main">
+
+<h2>Rapport Drankstand {{ drankstand.naam }}</h2>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Festivaldag</th>
+                <td>{% if festivaldag.festdate %}{{ festivaldag.festdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Naam Vereniging:</th>
+                <td>{{ vereniging }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+	<h3>Overzicht:</h3>
+    {% autoescape false %}
+    <table class="table">
+        {% set prevtitle = "" %}
+        {% set rowcounter = 0 %}
+        {% set colcounter = 0 %}
+
+        {% for line in orders  %}
+            {% set rowcounter = rowcounter +1 %}
+            {% if rowcounter == 1 %}
+                <tr>
+                {% for cols in line %}
+                    {% set colcounter = colcounter +1 %}
+                    {% if colcounter == 1 %}
+                        <td class="col-md-4"><small>{{ cols[0] }}<br>{{ cols[1] }}</small></td>
+                    {% else %}
+                        <td><small>{{ cols[0] }}<br>{{ cols[1] }}</small></td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% else %}
+                <tr>
+                {% for cols in line %}
+                    {% set colcounter = colcounter +1 %}
+                    {% if colcounter == 1 %}
+                        <td class="col-md-4"><small>{{ cols }}</small></td>
+                    {% else %}
+                        <td><small>{{ cols }}</small></td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+
+            {% endif %}
+
+
+
+        {% endfor %}
+    </table>
+    {% endautoescape %}
+    <a class="btn btn-default" target="_blank"  href="{{ path('admin_rapport_drankstand_print', {'drankstandid': drankstand.id, 'festivaldagid': festivaldag.id, 'naamvereniging': vereniging}) }}">
+        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Rapport Printen
+    </a>
+ </div>
+{% endblock %}
+
+{% block javascripts %}  
+{{ parent() }}
+<script>
+$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+</script>
+{% endblock %} 

@@ -6,51 +6,29 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: nl
+    fallbacklocale: en
+    imagefolder: uploads/images
 
-# Assetic Configuration
-assetic:
-    debug:          '%kernel.debug%'
-    use_controller: false
-    bundles:        [ ]
-    java: 'c:\program files (x86)\java\jre1.8.0_66\bin\java.exe'
-    filters:
-        cssrewrite: ~
-        cssembed:
-          jar: '%kernel.root_dir%/Resources/java/cssembed-0.4.5.jar'
-        yui_js:
-          jar: '%kernel.root_dir%/Resources/java/yuicompressor.jar'
-        lessphp:
-          file: '%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php'
-          apply_to: '\.less$'
-    assets:
-        jquery_js:
-            inputs:
-                - '%kernel.root_dir%/../vendor/components/jquery/jquery.min.js'
-            filters: [?yui_js]
-        bootstrap_js:
-            inputs:
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/transition.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/alert.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/modal.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/dropdown.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/scrollspy.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/tab.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/tooltip.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/popover.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/button.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/collapse.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/carousel.js'
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/affix.js'
-            filters: [?yui_js]
-        bootstrap_less:
-            inputs:
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less'
-            filters: [lessphp,cssembed]
+# fos user bundle (authentication)
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    group:
+        group_class: AppBundle\Entity\Group
+    registration:
+            confirmation:
+                enabled: true
+    from_email:
+            address:        noreply@gbk.be
+            sender_name:    Suikerrock Drank Demo App
+    
 
 framework:
+    validation: { enable_annotations: true }
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%fallbacklocale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -75,17 +53,42 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    form: 
+      resources: 
+          - bootstrap_3_layout.html.twig
+    globals:
+        fos_csrf_provider: "@form.csrf_provider"
+        imagefolder: "%imagefolder%"     
+     
+  
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        default_connection: default
+        types:
+            phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+                mapping_types:
+                  enum: string
+            smsd:
+                driver:   pdo_mysql
+                host:     '%database_host2%'
+                port:     '%database_port2%'
+                dbname:   '%database_name2%'
+                user:     '%database_user2%'
+                password: '%database_password2%'
+                charset:  UTF8
+                mapping_types:
+                  enum: string
+
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -95,8 +98,20 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    AppBundle:  ~
+            smsd:
+                connection: smsd
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    SMSAdminBundle: ~
+                    SMSApiBundle: ~
+                    SMSFrontBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -105,3 +120,12 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# TCPDF printer extensions classes
+white_october_tcpdf:
+    class: 'AppBundle\Utils\tcpdfExtensionClass'
+
+services:
+    smsmessage:
+        class: AppBundle\Model\SMSMessage
+        arguments: ["@logger"]

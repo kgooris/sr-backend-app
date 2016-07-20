@@ -1,0 +1,53 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="container">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="sub-header">NOOD Oproepen overzicht</h1>
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="col-md-3">Melding info</th>
+                <th class="col-md-2">Drankstand</th>
+                <th class="col-md-2">Min. Open</th>
+                <th class="col-md-1">Wie</th>
+                <th class="col-md-2"></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.ordernotes }}</td>
+                <td>{{ order.drankstand.naam }}</td>
+                {% set difference = date("now").diff(date(order.createdAt)) %}
+                {% set minutespassed = difference.i %}
+                {% set hourspassed = difference.h %}
+                {% set dayspassed = difference.days %}
+                {% set minutes = (dayspassed *24 *60)+(hourspassed*60)+minutespassed %}
+                <td align="center">{{ minutes }}</td>
+                <td>{{ order.owner }}</td>
+                <td align="center">
+                        <a class="btn btn-default btn-xs" href="{{ path('admin_nood_show', { 'id': order.id }) }}">
+                        	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Details
+                        </a>
+                        <a class="btn btn-default btn-xs" href="{{ path('admin_nood_bevestig', { 'id': order.id }) }}">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bevestig
+                        </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+           <a class="btn btn-default btn-lg" href="{{ path('admin_nood_new') }}">
+                            	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Toevoegen
+                     	</a>
+           
+        
+    
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Rapporten Overzicht Interne drank</h1>
+
+    {{ form_start(edit_form) }}
+   	{{form_row(edit_form.van)}}
+	{{form_row(edit_form.tot)}}
+				 <button type="submit" class="btn btn-default btn-lg">
+            		<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Rapport aanvragen
+            	</button>
+
+    {{ form_end(edit_form) }}
+</div>
+
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+	$('.datepicker').datepicker({
+	format: 'dd/mm/yyyy',
+	autoclose: 'true',
+	orientation: 'bottom'
+
+	});
+	</script>
+{% endblock %}
+
+
+

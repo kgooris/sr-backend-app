@@ -1,0 +1,52 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <h1 class="sub-header">User list</h1>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Gsm_app</th>
+                <th>Gsm_perso</th>
+                <th>Isactive</th>
+                <th>Responsible</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('admin_settings_user_show', { 'id': user.id }) }}">{{ user.username }}</a></td>
+                <td>{{ user.email }}</td>
+                <td>{{ phone_number_format(user.gsmapp, 'NATIONAL') }}</td>
+                <td>{{ phone_number_format(user.gsmperso, 'NATIONAL') }}</td>
+                <td>{% if user.enabled %}Yes{% else %}No{% endif %}</td>
+                <td>{% if user.manager %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_settings_user_show', { 'id': user.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_settings_user_edit', { 'id': user.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_user_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+    
+    </div>
+{% endblock %}

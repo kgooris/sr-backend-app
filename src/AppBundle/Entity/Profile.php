@@ -5,19 +5,16 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 
  * @author kristof
- * @ORM\Entity
- * @ORM\Table(name="profile")
+ * @ORM\Entity()
+ * @ORM\Table(name="profiles")
  */
 class Profile
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
-
-     * 
      */
     private $id;
 
@@ -33,9 +30,9 @@ class Profile
     
     /**
      * 
-     * @ORM\OneToMany(targetEntity="User", mappedBy="profile")
+     * @ORM\OneToMany(targetEntity="User", mappedBy="profiles")
+     * @ORM\Column(name="roles",type="string", nullable=true)
      */
-    
     private $users;
 
     /**
@@ -136,5 +133,19 @@ class Profile
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Set users
+     *
+     * @param string $users
+     *
+     * @return Profile
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+
+        return $this;
     }
 }

@@ -1,0 +1,69 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Order edit</h1>
+
+    {{ form_start(edit_form) }}
+           {% macro prototype(od) %}
+     		<tr>
+                 <td>{{form_widget(od.drank) }}</td>
+                 <td>{{form_widget(od.hoeveel)}} </td>
+      		</tr>
+     	{% endmacro %}
+     	<div class="hidden">	 
+     	{{form_row(edit_form.drankstand)}}
+     		 {{form_row(edit_form.smsBestelNr)}} 
+<!--     		 {{ dump(edit_form.vars.value) }}-->
+     		 {{form_row(edit_form.ordertype)}}
+     		 {{form_row(edit_form.smsDateTime)}}
+     		 </div>
+     		 
+     		 
+			
+				<table id="od" class="table table-condensed table-bordered table-hover" data-prototype="{{ _self.prototype(edit_form.od.vars.prototype)|e }}">
+			
+
+        			<caption></caption>
+         			<thead>
+         				<tr id="od_table_header_row">
+         					<th>DrankSoort</th>
+         					<th>Aantal</th>
+         					<th>functie</th>
+         				</tr>
+         			</thead>
+         			<tbody id="od_table_body">
+		            	 {% for od in edit_form.od %}
+		       				 {{_self.prototype(od)}}
+		             	{% endfor %}
+		       		</tbody>
+     			</table>
+				
+				 <button type="submit" class="btn btn-default btn-lg">
+            		<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Aanpassingen Opslaan
+            	</button>
+            	<a class="btn btn-default btn-lg" href="{{ path('admin_order_mainstock') }}">
+                            	<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Terug naar overzicht
+                            </a>
+				  
+    {{ form_end(edit_form) }}
+   </div>
+
+    
+{% endblock %}
+
+{% block javascripts %}  
+{{ parent() }}
+        {% javascripts '@AppBundle/Resources/public/js/order.js' filter='?yui_js' combine=true %}  
+            <script src="{{ asset_url }}"></script>  
+        {% endjavascripts %}
+                {% javascripts '@AppBundle/Resources/public/js/jquery.collection.js' filter='?yui_js' combine=true %}  
+            <script src="{{ asset_url }}"></script>  
+        {% endjavascripts %}  
+           <script type="text/javascript">
+       		 $('.my-selector').collection({
+           		 init_with_n_elements: 5
+           		 });
+    	</script>
+          
+{% endblock %} 

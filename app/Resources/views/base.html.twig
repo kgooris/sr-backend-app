@@ -1,12 +1,14 @@
 <!-- DOCTYPE html-->  
 <html>  
 <head>  
-    <title>{% block title %}Bootstrap 101 Template{% endblock %}</title>  
+    <title>{% block title %}SmartDrinks Suikerrock{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
      
     {% block stylesheets %}  
         {% stylesheets '@bootstrap_less' combine=true %}  
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet">  
+            <link href="/css/dashboard.css" rel="stylesheet">
+            <link href="/css/jasny-bootstrap.min.css" rel="stylesheet">
         {% endstylesheets %}  
     {% endblock %}  
   
@@ -17,13 +19,71 @@
     <![endif]-->  
 </head>  
 <body>  
-  
+<style type="text/css">
+.navbar-brand>img {
+   max-height: 100%;
+   height: 100%;
+   width: auto;
+   margin: 0 auto;
+
+
+   /* probably not needed anymore, but doesn't hurt */
+   -o-object-fit: contain;
+   object-fit: contain; 
+
+}
+</style>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+          		SmartDrinks voor Suikerrock
+          </a>
+          
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+ 			<li role="presentation" class="{% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}"><a href="{{ path('homepage') }}">Dashboard</a></li>
+            <li role="presentation" class="{% if app.request.attributes.get('_route') starts with 'admin' %}active{% endif %}"><a href="{{ path('admin_homepage') }}">Admin</a></li>
+                  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                  
+                <p class="navbar-text">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</p>
+                <li>
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+                </li>
+                
+            {% else %}
+                <li>
+                	<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block extramenu %}
+    {% endblock %}
+        
+    <div class="container">
+        
+    
     {% block body %}  
     {% endblock %}  
-  
+  	</div>
     {% block javascripts %}  
         {% javascripts '@jquery_js' '@bootstrap_js' filter='?yui_js' combine=true %}  
             <script src="{{ asset_url }}"></script>  
+            <script src="/js/jasny-bootstrap.min.js"></script>
         {% endjavascripts %}  
     {% endblock %}  
 </body>  

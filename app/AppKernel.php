@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use JordiLlonch\Bundle\CrudGeneratorBundle\JordiLlonchCrudGeneratorBundle;
 
 class AppKernel extends Kernel
 {
@@ -16,8 +17,17 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
         	new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-        	new AppBundle\AppBundle()
-        	
+        	new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
+        	new FOS\UserBundle\FOSUserBundle(),
+        	new AppBundle\AppBundle(),
+            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+            new SMS\AdminBundle\SMSAdminBundle(),
+            new SMS\ApiBundle\SMSApiBundle(),
+            new SMS\FrontBundle\SMSFrontBundle(),
+
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

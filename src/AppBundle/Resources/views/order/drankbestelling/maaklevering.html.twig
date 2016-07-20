@@ -1,0 +1,65 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<h2>Maak Levering Details</h2>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>DrankStand</th>
+                <td>{{ order.drankstand.naam }}</td>
+            </tr>
+            <tr>
+                <th>Toegevoegd op</th>
+                <td>{% if order.createdAt %}{{ order.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Item Aangemaakt door</th>
+                <td>{% if order.owner %}{{ order.owner.username }}{% endif %}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+	<h3>Items:</h3>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Soort</th>
+                <th>Aantal</th>
+            </tr>
+			{% for items in order.od %}
+				<tr>
+			  		<td>{{ items.drank.naam }}</td>
+			  		<td>{{ items.hoeveel }}</td>
+            	</tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+<p>
+
+    <h2>Ben je zeker?</h2>
+    <h4>door te klikken op 'Doe maar!' zal de voorlopigge stock van de drankstand worden aangepast in het overzicht!</h4>
+    <br>
+    <a class="btn btn-default btn-lg" href="{{ path('admin_drankbestelling_index') }}">
+        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Nee Ik ben niet zeker
+    </a>
+    <a class="btn btn-default btn-lg" href="{{ path('admin_drankbestelling_leverok',{ 'id': order.id }) }}">
+        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Doe maar!
+    </a>
+
+ </p>
+ </div>
+{% endblock %}
+
+{% block javascripts %}  
+{{ parent() }}
+<script>
+$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+</script>
+{% endblock %} 

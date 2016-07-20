@@ -1,7 +1,15 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
-app_hello: 
+_homepage: 
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix: /
-    
+sms_admin:
+    resource: "@SMSAdminBundle/Controller/"
+    type:     annotation
+
+sms_front:
+    resource: "@SMSFrontBundle/Controller/"
+    type:     annotation
+    prefix: /admin/smsfront
+

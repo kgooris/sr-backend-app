@@ -1,0 +1,18 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Group creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_group_index') }}">Back to the list</a>
+        </li>
+    </ul>
+    </div>
+{% endblock %}

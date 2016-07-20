@@ -1,0 +1,64 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Drank Bestelling ingeven</h1>
+
+    {{ form_start(form) }}
+    
+     
+     {{ form_row(form.drankstand) }}
+	{{ form_row(form.festivaldag) }}
+     
+         {% macro prototype(od) %}
+     
+                 <td>{{form_widget(od.drank)}}</td>
+                 <td>{{form_widget(od.hoeveel)}} </td>
+      
+     	{% endmacro %}
+			<div class="table-responsive">
+				<table id="od" class="table table-condensed table-bordered table-hover" data-prototype="{{ _self.prototype(form.od.vars.prototype)|e }}">
+			
+
+        			<caption></caption>
+         			<thead>
+         				<tr id="od_table_header_row">
+         					<th class="col-md-3">DrankSoort</th>
+         					<th class="col-md-1">Aantal</th>
+         					<th class="col-md-2">functie</th>
+         				</tr>
+         			</thead>
+         			<tbody id="od_table_body">
+		            	 {% for od in form.od %}
+		       				 {{_self.prototype(od)}}
+		             	{% endfor %}
+		       		</tbody>
+     			</table>
+				</div>
+			<button type="submit" class="btn btn-default btn-lg">
+            	<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Bestelling Ingeven
+            </button>
+				 
+			   
+
+         <a class="btn btn-default btn-lg" href="{{ path('admin_drankbestelling_index') }}">
+                            	<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Terug naar overzicht
+                            </a>
+            
+{{ form_end(form) }}        
+    
+    
+    
+    </div>
+    
+   
+{% endblock %}
+
+
+{% block javascripts %}  
+{{ parent() }}
+        {% javascripts '@AppBundle/Resources/public/js/order.js' filter='?yui_js' combine=true %}  
+            <script src="{{ asset_url }}"></script>  
+        {% endjavascripts %}  
+{% endblock %} 
+    

@@ -25,3 +25,47 @@ monolog:
             level: debug
         console:
             type:  console
+
+# Assetic Configuration
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: false
+    bundles:        [ AppBundle ]
+    java: '/usr/bin/java'
+    filters:
+        cssrewrite: ~
+        cssembed:
+          jar: '%kernel.root_dir%/Resources/java/cssembed-0.4.5.jar'
+        yui_js:
+          jar: '%kernel.root_dir%/Resources/java/yuicompressor.jar'
+        lessphp:
+          file: '%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php'
+          apply_to: '\.less$'
+    assets:
+        jquery_js:
+            inputs:
+                - '%kernel.root_dir%/../vendor/components/jquery/jquery.min.js'
+            filters: [?yui_js]
+        bootstrap_js:
+            inputs:
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/transition.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/alert.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/modal.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/dropdown.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/scrollspy.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/tab.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/tooltip.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/popover.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/button.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/collapse.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/carousel.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/affix.js'
+            filters: [?yui_js]
+        bootstrap_less:
+            inputs:
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less'
+            filters: [lessphp,cssembed]
+        bootstrap_fonts_woff2:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.woff2'
+            output: 'fonts/glyphicons-halflings-regular.woff2'
+

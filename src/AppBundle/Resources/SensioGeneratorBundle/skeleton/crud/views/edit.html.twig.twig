@@ -1,0 +1,21 @@
+{% block extends %}
+{{ "{% extends 'AdminDefault/index.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block body %}" }}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>{{ entity }} edit</h1>
+
+    {{ '{{ form_start(edit_form) }}' }}
+        {{ '{{ form_widget(edit_form) }}' }}
+    <button type="submit" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-save" aria-hidden="true"></span>Save
+    </button>
+
+    {{ '{{ form_end(edit_form) }}' }}
+</div>
+{% set hide_edit, hide_delete = true, false %}
+{{ include('crud/views/others/record_actions.html.twig.twig') -}}
+{{ "{% endblock %}" }}
+{% endblock body %}

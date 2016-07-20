@@ -1,0 +1,51 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        <h1 class="sub-header">Lijst van user groepen</h1>
+        <div class="table-responsive">
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+
+                    <th>Name</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for group in groups %}
+                    <tr>
+                        <td><a href="{{ path('admin_settings_group_show', { 'id': group.id }) }}">{{ group.name }}</a>
+                        </td>
+                        <td>
+
+                            {% for role in group.roles %}
+                                {{ role }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('admin_settings_group_show', { 'id': group.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_settings_group_edit', { 'id': group.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <ul>
+            <li>
+                <a href="{{ path('admin_settings_group_new') }}">Create a new entry</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
