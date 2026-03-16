@@ -1,0 +1,40 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Group</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ group.id }}</td>
+            </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ group.name }}</td>
+        </tr>
+            <tr>
+                <th>Roles</th>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_group_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_group_edit', { 'id': group.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+{% endblock %}
+

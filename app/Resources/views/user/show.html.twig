@@ -1,0 +1,73 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Gsm_app</th>
+                <td>{{ phone_number_format(user.gsmapp, 'NATIONAL') }}</td>
+            </tr>
+            <tr>
+                <th>Gsm_perso</th>
+                <td>{{ phone_number_format(user.gsmperso, 'NATIONAL') }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>**************</td>
+            </tr>
+            <tr>
+                <th>Groups</th>
+
+                <td>
+                    {% for grp in user.groups %}
+                        {{ grp.name }}:<br>
+                        <div style="padding-left: 10px">Role(s):
+                        {% for name in grp.roles %}
+                        {{ name }} ,
+                        {% endfor %}
+                        </div>
+                    {% endfor %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Createdat</th>
+                <td>{% if user.createdAt %}{{ user.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if user.updatedAt %}{{ user.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_user_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_user_edit', { 'id': user.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+{% endblock %}

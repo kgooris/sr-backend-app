@@ -4,7 +4,7 @@
 
 <div class="col-sm-12 col-sm-offset-1 col-md-12 col-md-offset-1 main">
 
-<h2>Rapport Alle drankstanden</h2>
+<h2>Rapport Interne drank</h2>
 	<h3>Overzicht:</h3>
     {% autoescape false %}
     <table class="table">
@@ -36,15 +36,14 @@
                     {% endif %}
                 {% endfor %}
                 </tr>
-
             {% endif %}
-
-
-
         {% endfor %}
     </table>
-    {% endautoescape %}
 
+    {% endautoescape %}
+    <a class="btn btn-default" target="_blank"  href="{{ path('admin_rapport_intern_print', {'van': van|date('d-m-Y'), 'tot': tot|date('d-m-Y')}) }}">
+        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Rapport Printen
+    </a>
  </div>
 {% endblock %}
 

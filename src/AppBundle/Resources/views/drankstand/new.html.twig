@@ -1,0 +1,53 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Aanmaken drankStand </h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_drankstand_index') }}">Back to the list</a>
+        </li>
+    </ul>
+    </div>
+         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="sub-header">Drankstanden</h1>
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr class="active">
+                <th>Naam</th>
+                <th>Gsm</th>
+                <th>Aangemaakt op</th>
+                <th>Aangepast op</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for drankStand in drankStands %}
+            <tr>
+                <td><a href="{{ path('admin_settings_drankstand_show', { 'id': drankStand.id }) }}">{{ drankStand.naam }}</td>
+                <td>{{ phone_number_format(drankStand.gsm, 'NATIONAL') }}</td>
+                <td>{% if drankStand.createdAt %}{{ drankStand.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if drankStand.updatedAt %}{{ drankStand.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_settings_drankstand_show', { 'id': drankStand.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_settings_drankstand_edit', { 'id': drankStand.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

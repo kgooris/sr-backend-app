@@ -1,0 +1,33 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>DrankSoort edit</h1>
+
+    {{ form_start(edit_form) }}
+    	{{ form_errors(edit_form) }}
+    	<img src="/{{ imagefolder }}/{{ drankSoort.fotopath }}"/><br> {{ form_row(edit_form.file, {'required' : ''}) }}
+    	{{ form_row(edit_form.naam) }}
+    	{{ form_row(edit_form.omschrijving) }}
+    	{{ form_row(edit_form.smspositieid) }}
+    	{{ form_row(edit_form.stock) }}
+        {{ form_row(edit_form.rapportvolgorde) }}
+    	{{ form_row(edit_form.eenheid) }}
+        
+		{{ form_widget(edit_form._token) }}
+        <!--{{ form_widget(edit_form) }}-->
+        <input type="submit" value="Opslaan" />
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_dranksoort_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>DrankStand</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ drankStand.id }}</td>
+            </tr>
+            <tr>
+                <th>Naam</th>
+                <td>{{ drankStand.naam }}</td>
+            </tr>
+            <tr>
+                <th>Smscode</th>
+                <td>{{ drankStand.smscode }}</td>
+            </tr>
+            <tr>
+                <th>Gsm</th>
+                <td>{{ phone_number_format(drankStand.gsm, 'NATIONAL') }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if drankStand.createdAt %}{{ drankStand.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if drankStand.updatedAt %}{{ drankStand.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_drankstand_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_drankstand_edit', { 'id': drankStand.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+{% endblock %}

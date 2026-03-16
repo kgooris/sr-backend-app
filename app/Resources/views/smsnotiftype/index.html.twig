@@ -1,0 +1,34 @@
+    {% extends 'AdminDefault/index.html.twig' %}
+
+    {% block body %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="sub-header">SmsNotifType list</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                        <th>Id</th>
+                        <th>Naam</th>
+                        <th>Omschrijving</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for smsNotifType in smsNotifTypes %}
+                <tr>
+                            <td>
+                                <a href="{{ path('admin_settings_smsnotiftype_show', { 'id': smsNotifType.id }) }}">{{ smsNotifType.id }}</a>
+                            </td>
+                            <td>{{ smsNotifType.naam }}</td>
+                            <td>{{ smsNotifType.omschrijving }}</td>
+                            <td align="center">                                        <a class="btn btn-default" href="{{ path('admin_settings_smsnotiftype_show', { 'id': smsNotifType.id }) }}">show</a>                                        <a class="btn btn-default" href="{{ path('admin_settings_smsnotiftype_edit', { 'id': smsNotifType.id }) }}">edit</a>
+
+                            </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a class="btn btn-default btn-lg" href="{{ path('admin_settings_smsnotiftype_new') }}">Create a new entry</a>    </div>
+    {% endblock %}

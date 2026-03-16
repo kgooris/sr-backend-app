@@ -1,0 +1,46 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="container">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="sub-header">Overzicht Leveringen Hoofdstock</h1>
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="col-md-4">Levering Referentie</th>
+                <th class="col-md-2">Datum Ingave</th>
+                <th class="col-md-1">Wie</th>
+                <th class="col-md-3">Acties</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.ordernotes }}</td>
+                <td>{% if order.createdAt %}{{ order.createdAt|date('Y-m-d H:i') }}{% endif %}</td>
+                <td>{{ order.owner }}</td>
+                <td align="center">
+                        <a class="btn btn-default" href="{{ path('admin_mainstock_show', { 'id': order.id }) }}">
+                        	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Details
+                        </a>
+                        <a class="btn btn-default" href="{{ path('admin_mainstock_edit', { 'id': order.id }) }}">
+                        	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bewerken
+                        </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+           <a class="btn btn-default btn-lg" href="{{ path('admin_mainstock_new') }}">
+                            	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Toevoegen
+                     	</a>
+           
+        
+    
+    </div>
+    </div>
+{% endblock %}

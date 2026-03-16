@@ -46,7 +46,7 @@ class DrankBestellingController extends Controller
         $query = $em->createQuery('
           SELECT o
           FROM AppBundle:Order o JOIN o.ordertype ot
-          WHERE ot.smstype_id = 11 ');
+          WHERE ot.smstype_id = 11 or ot.smstype_id = 12');
         $orders = $query->getResult();
 
         //$orders = $em->getRepository('AppBundle:Order')->findByDrankstand($drankbestelling->getId());
@@ -71,7 +71,7 @@ class DrankBestellingController extends Controller
         $order->setFestivaldag($activeFestivalDag[0]);
         
         $order->setOrdertype($this->getDoctrine()->getRepository('AppBundle:OrderType')->findOneBy(array('smstype_id' => 11)));
-        $order->setSmsBestelNr(999);
+        $order->setSmsBestelNr(99999);
         $order->setSmsDateTime(new \DateTime());
 
         $form = $this->createForm('AppBundle\Form\OrderType_drankbestelling', $order);
@@ -136,12 +136,12 @@ class DrankBestellingController extends Controller
         else
         {
             $this->denyAccessUnlessGranted('ROLE_BESTELLING_PRINT', null, 'No access!!');
-            $em2 = $this->getDoctrine()->getEntityManager('smsd');
-            $sms = new Outbox();
-            $sms->setNumber("+32473251937");
-            $sms->setText("PRINT GEDAAN!!!");
-            $em2->persist($sms);
-            $em2->flush();
+//            $em2 = $this->getDoctrine()->getEntityManager('smsd');
+//            $sms = new Outbox();
+//            $sms->setNumber("+32473251937");
+//            $sms->setText("PRINT GEDAAN!!!");
+//            $em2->persist($sms);
+//            $em2->flush();
         }
 
 
@@ -325,11 +325,26 @@ EOD;
         //$pdf->writeHTMLCell(0,1,7,35,$items_html,0,1,false,true,"L",true);
 
 
+
         $footertext1 = "<b>Handtekening Suikerrock</b>";
         $footertext2 = "<b>Handtekening Vereniging</b>";
         $pdf->SetFont('helvetica', '', 12);
-        $pdf->writeHTMLCell(65, 23, 7, 175, $footertext1, 1, 1, false, true, "L", true);
-        $pdf->writeHTMLCell(65, 23, 77, 175, $footertext2, 1, 1, false, true, "L", true);
+
+        ///$footertext3 = "<table>";
+        // Set some content to print
+        $footertext3 = <<<EOD
+            <table cellspacing="0" cellpadding="0" border="1">
+            <tr>
+                <td height="100" width="200"><b>Handtekening Suikerrock</b></td>
+                <td width="60"></td>
+                <td width="200"><b>Handtekening Vereniging</b></td>
+            </tr>
+            </table>
+EOD;
+        $pdf->writeHTML($footertext3,true, false, false, false, "C");
+        //$pdf->writeHTMLCell(65, 23, 7, 175, $footertext1, 1, 1, false, true, "L", true);
+        //$pdf->writeHTMLCell(65, 23, 77, 175, $footertext2, 1, 1, false, true, "L", true);
+
 
 
 

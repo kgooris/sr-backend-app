@@ -1,0 +1,39 @@
+    {% extends 'AdminDefault/index.html.twig' %}
+
+    {% block body %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="sub-header">Role list</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                        <th>Id</th>
+                        <th>Role</th>
+                        <th>Role Childrens</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for role in roles %}
+                <tr>
+                            <td>
+                                <a href="{{ path('admin_settings_role_show', { 'id': role.id }) }}">{{ role.id }}</a>
+                            </td>
+                            <td>{{ role.role }}</td>
+                            <td>
+                                {% for child in role.children %}
+                                    {{ child }}<br>
+                                {% endfor %}
+
+                            </td>
+                            <td align="center">                                        <a class="btn btn-default" href="{{ path('admin_settings_role_show', { 'id': role.id }) }}">show</a>                                        <a class="btn btn-default" href="{{ path('admin_settings_role_edit', { 'id': role.id }) }}">edit</a>
+
+                            </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a class="btn btn-default btn-lg" href="{{ path('admin_settings_role_new') }}">Create a new entry</a>    </div>
+    {% endblock %}

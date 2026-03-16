@@ -64,7 +64,6 @@ security:
         - { path: ^/register, role: ROLE_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(css|js), role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/settings, role: ROLE_ADMIN }
         - { path: ^/, role: ROLE_USER }
 
         

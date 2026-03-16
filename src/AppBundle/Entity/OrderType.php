@@ -1,0 +1,133 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ *
+ * @author kristof
+ * @ORM\Entity
+ * @ORM\Table(name="ordertype")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class OrderType
+{
+	
+	
+	/**
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+	
+	/**
+	 * @ORM\Column(type="string", unique=true, length=250)
+	 */
+	private $beschrijving;
+	
+	/**
+	 * @ORM\Column(type="string", unique=false, columnDefinition="enum('bestelling', 'levering', 'andere')")
+	 */
+	private $groep;
+	
+	/**
+	* @ORM\Column(type="integer", length=2, unique=true, nullable=false)
+	*/
+	private $smstype_id;
+
+
+    /**
+     * Get string representation of object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getBeschrijving();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set beschrijving
+     *
+     * @param string $beschrijving
+     *
+     * @return OrderType
+     */
+    public function setBeschrijving($beschrijving)
+    {
+        $this->beschrijving = $beschrijving;
+
+        return $this;
+    }
+
+    /**
+     * Get beschrijving
+     *
+     * @return string
+     */
+    public function getBeschrijving()
+    {
+        return $this->beschrijving;
+    }
+
+    /**
+     * Set groep
+     *
+     * @param string $groep
+     *
+     * @return OrderType
+     */
+    public function setGroep($groep)
+    {
+        $this->groep = $groep;
+
+        return $this;
+    }
+
+    /**
+     * Get groep
+     *
+     * @return string
+     */
+    public function getGroep()
+    {
+        return $this->groep;
+    }
+
+    /**
+     * Set smstypeId
+     *
+     * @param integer $smstypeId
+     *
+     * @return OrderType
+     */
+    public function setSmstypeId($smstypeId)
+    {
+        $this->smstype_id = $smstypeId;
+
+        return $this;
+    }
+
+    /**
+     * Get smstypeId
+     *
+     * @return integer
+     */
+    public function getSmstypeId()
+    {
+        return $this->smstype_id;
+    }
+}

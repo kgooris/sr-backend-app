@@ -1,0 +1,42 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="sub-header">DrankSoorten</h1>
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr class="active">
+                <th>Naam</th>
+                <th>smspos</th>
+                <th>Volgorde</th>
+                <th>Foto</th>
+                <th>Vooraad</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="rowlink" data-link="row" >
+        {% for drankSoort in drankSoorts %}
+            <tr>
+                <td class="col-md-4"><a href="{{ path('admin_settings_dranksoort_show', { 'id': drankSoort.id }) }}">{{ drankSoort }}</a></td>
+                <td class="col-md-1">{{ drankSoort.smspositieid }}</td>
+                <td class="col-md-1">{{ drankSoort.rapportvolgorde }}</td>
+                <td class="col-md-1 text-center"><img height="50px" width="50px" src="/{{ imagefolder }}/{{ drankSoort.fotopath }}"/></td>
+                <td class="col-md-1 text-center">{{ drankSoort.stock }}</td>
+                <td class="rowlink-skip col-md-2 text-center">
+                            <a class="btn btn-default btn-lg" href="{{ path('admin_settings_dranksoort_edit', { 'id': drankSoort.id }) }}">
+                            	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Bewerken
+                            </a>
+              	</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_dranksoort_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+    </div>
+{% endblock %}

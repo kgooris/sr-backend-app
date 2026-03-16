@@ -1,0 +1,42 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>FestivalDag</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ festivalDag.id }}</td>
+            </tr>
+            <tr>
+                <th>Festdate</th>
+                <td>{% if festivalDag.festdate %}{{ festivalDag.festdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Festday</th>
+                <td>{{ festivalDag.festday }}</td>
+            </tr>
+            <tr>
+                <th>Festinfo</th>
+                <td>{{ festivalDag.festinfo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_festivaldag_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_festivaldag_edit', { 'id': festivalDag.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+{% endblock %}

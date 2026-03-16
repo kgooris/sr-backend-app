@@ -1,0 +1,38 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>SmsNotifType</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ smsNotifType.id }}</td>
+            </tr>
+            <tr>
+                <th>Naam</th>
+                <td>{{ smsNotifType.naam }}</td>
+            </tr>
+            <tr>
+                <th>Omschrijving</th>
+                <td>{{ smsNotifType.omschrijving }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_smsnotiftype_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_smsnotiftype_edit', { 'id': smsNotifType.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+{% endblock %}

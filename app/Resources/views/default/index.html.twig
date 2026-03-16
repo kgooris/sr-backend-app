@@ -33,7 +33,12 @@
                         {% endif %}
                         </td>
                     {% elseif order.ordertype.smstypeid == 22 %}
-                        <td>Aanvraag {{ order.ordernotes }}  <span class="glyphicon glyphicon-flash" aria-hidden="true"></span></td>
+                        <td>Aanvraag hulp gevraagd voor
+                            {% if order.ordernotes == "01" %}
+                                vechtpartij
+                            {% else %}
+                                EHBO
+                            {% endif %}<span class="glyphicon glyphicon-flash" aria-hidden="true"></span></td>
                     {% else %}
 
                         <td>{{ order.ordertype.beschrijving }}

@@ -1,0 +1,62 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>Order creation</h1>
+
+    {{ form_start(form) }}
+    
+     
+         {% macro prototype(od) %}
+     
+                 <td>{{form_widget(od.drank)}}</td>
+                 <td>{{form_widget(od.hoeveel)}} </td>
+      
+     	{% endmacro %}
+     		 {{form_row(form.smsBestelNr)}} 
+     		 {{form_row(form.drankstand)}}
+     		 {{form_row(form.smsDateTime)}}
+     		 {{form_row(form.ordertype)}}
+			
+				<table id="od" class="table table-condensed table-bordered table-hover" data-prototype="{{ _self.prototype(form.od.vars.prototype)|e }}">
+			
+
+        			<caption></caption>
+         			<thead>
+         				<tr id="od_table_header_row">
+         					<th>DrankSoort</th>
+         					<th>Aantal</th>
+         					<th>functie</th>
+         				</tr>
+         			</thead>
+         			<tbody id="od_table_body">
+		            	 {% for od in form.od %}
+		       				 {{_self.prototype(od)}}
+		             	{% endfor %}
+		       		</tbody>
+     			</table>
+				
+				 
+			    <input type="submit" value="Create" />
+{{ form_end(form) }}
+	<ul>
+        <li>
+            <a href="{{ path('admin_order_index') }}">Back to the list</a>
+        </li>
+    </ul>
+    
+    
+    </div>
+    
+   
+{% endblock %}
+
+
+{% block javascripts %}  
+{{ parent() }}
+        {% javascripts '@AppBundle/Resources/public/js/order.js' filter='?yui_js' combine=true %}  
+            <script src="{{ asset_url }}"></script>  
+        {% endjavascripts %}  
+{% endblock %} 
+    

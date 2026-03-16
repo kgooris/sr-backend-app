@@ -1,0 +1,456 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
+
+/**
+ *
+ * @author kristof
+ * @ORM\Entity
+ * @ORM\Table(name="ordersr")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Order
+{
+	/**
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+	
+	/**
+	 *
+	 * @ORM\ManyToOne(targetEntity="DrankStand", inversedBy="ord")
+	 * @ORM\JoinColumn(name="drankstand_id", referencedColumnName="id", nullable=false)
+	 * @Assert\NotBlank()
+	 */
+	private $drankstand;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FestivalDag", inversedBy="ord")
+     * @ORM\JoinColumn(name="festivaldag_id", referencedColumnName="id", nullable=true)
+     */
+    private $festivaldag;
+	
+    /**
+	 *
+	 * @ORM\ManyToOne(targetEntity="OrderType")
+	 * @ORM\JoinColumn(name="ordertype_id", referencedColumnName="id", nullable=false)
+	 * @Assert\NotBlank()
+	 */
+	private $ordertype;
+	/**
+	 *
+	 * @ORM\Column(type="integer")
+	 */
+	private $smsBestelNr;
+	/**
+	 * @ORM\OneToMany(targetEntity="OrderDrank", mappedBy="ord", cascade={"all"},orphanRemoval=true)
+	 * @Assert\NotBlank()
+	 * 
+	 * */
+	private $od;
+	/**
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+	 */
+	private $owner;
+
+	
+	/**
+	 * 
+	 * @ORM\Column(type="string", length=255, nullable=true) 
+	 */
+	private $ordernotes;
+
+    /**
+     *
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
+     */
+    private $done;
+
+    /**
+     * @return mixed
+     */
+    public function getDone()
+    {
+        return $this->done;
+    }
+
+    /**
+     * @param mixed $done
+     */
+    public function setDone($done)
+    {
+        $this->done = $done;
+    }
+
+ 
+
+    /**
+	 * sms request time
+	 *
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="smsdatetime", type="datetime", nullable=false)
+	 */
+	protected $smsDateTime;
+	
+/**
+     * created Time/Date
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    protected $createdAt;
+    
+    /**
+     * updated Time/Date
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    protected $updatedAt;
+	
+    
+    
+    public function getOwner()
+    {
+    	return $this->owner;
+    }
+    
+    public function setOwner(User $owner)
+    {
+    	$this->owner = $owner;
+    }
+    
+    public function __toString()
+    {
+    	return (string) $this->getId();
+    }
+    
+    public function __construct()
+    {
+    	$this->od = new ArrayCollection();
+    	//$this->dranken = new ArrayCollection();
+    	
+    }
+    /**
+     * Get eenheid
+     *
+     * @return integer
+     */
+    public function getEenheid()
+    {
+    	return $this->eenheid;
+    }
+
+
+
+
+
+    /**
+     * Set createdAt
+     *
+     * @ORM\PrePersist
+    
+     */
+    public function setCreatedAt()
+    {
+    	$this->createdAt = new \DateTime();
+    	$this->updatedAt = new \DateTime();
+    	
+    }
+    
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+    	return $this->createdAt;
+    }
+
+    
+    /** on change update Stock when order is of type mainstock
+     * @ORM\PreUpdate
+     */
+    public function setMainStock()
+    {
+
+
+    }
+
+
+    /**
+     * Set updatedAt
+     *
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+    	$this->updatedAt = new \DateTime();
+    
+    	return $this;
+    }
+    
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+    	return $this->updatedAt;
+    }
+    
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set smsBestelNr
+     *
+     * @param integer $smsBestelNr
+     *
+     * @return Order
+     */
+    public function setSmsBestelNr($smsBestelNr)
+    {
+        $this->smsBestelNr = $smsBestelNr;
+
+        return $this;
+    }
+
+    /**
+     * Get smsBestelNr
+     *
+     * @return integer
+     */
+    public function getSmsBestelNr()
+    {
+        return $this->smsBestelNr;
+    }
+
+    /**
+     * Set smsDateTime
+     *
+     * @param \DateTime $smsDateTime
+     *
+     * @return Order
+     */
+    public function setSmsDateTime($smsDateTime)
+    {
+        $this->smsDateTime = $smsDateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get smsDateTime
+     *
+     * @return \DateTime
+     */
+    public function getSmsDateTime()
+    {
+        return $this->smsDateTime;
+    }
+
+    /**
+     * Set drankstand
+     *
+     * @param \AppBundle\Entity\DrankStand $drankstand
+     *
+     * @return Order
+     */
+    public function setDrankstand(\AppBundle\Entity\DrankStand $drankstand)
+    {
+        $this->drankstand = $drankstand;
+
+        return $this;
+    }
+
+    /**
+     * Get drankstand
+     *
+     * @return \AppBundle\Entity\DrankStand
+     */
+    public function getDrankstand()
+    {
+        return $this->drankstand;
+    }
+
+    /**
+     * Set ordertype
+     *
+     * @param \AppBundle\Entity\OrderType $ordertype
+     *
+     * @return Order
+     */
+    public function setOrdertype(\AppBundle\Entity\OrderType $ordertype)
+    {
+
+                if ($ordertype->getSmstypeId() == 13) // drank levering gedaan
+                {
+                    foreach ($this->od as $od) {
+                        /** @var DrankSoort $dranksoort */
+                        $dranksoort = $od->getDrank();
+                        $dranksoort->removeFromStock($od->getHoeveel());
+                    }
+                }
+        
+        $this->ordertype = $ordertype;
+
+        return $this;
+    }
+
+    /**
+     * Get ordertype
+     *
+     * @return \AppBundle\Entity\OrderType
+     */
+    public function getOrdertype()
+    {
+        return $this->ordertype;
+    }
+
+    /**
+     * Add od
+     *
+     * @param \AppBundle\Entity\OrderDrank $od
+     *
+     * @return Order
+     */
+    public function addOd(\AppBundle\Entity\OrderDrank $od)
+    {
+        
+    	$this->od[] = $od;
+    	if ($this->getOrdertype()->getSmstypeId() == 4) //
+    	{
+    		//$em = $this->getDoctrine()->getManager();
+    	    
+    		// get each drink
+    	
+    	
+    		// for each drink get the current stock.
+    		$dranksoort = $od->getDrank();
+            $dranksoort->addToStock($od->getHoeveel());
+    		//$dranksoort = $em->getRepository('AppBundle:DrankSoort')->find($colOd->getDrank()->getId());
+    		 
+    			 
+    		//$totalstock = $dranksoort->getStock() + $od->getHoeveel();
+    			 
+    			// get quantity of each drink
+    		//echo $od->getDrank()->getNaam() . " - " . $od->getHoeveel() . " - " . $dranksoort->getStock() . " - " . $totalstock ."<br>";
+    		//$od->getDrank()->setStock($totalstock);
+     	}
+
+		$od->setOrd($this);
+        return $this;
+    }
+
+    /**
+     * Remove od
+     *
+     * @param \AppBundle\Entity\OrderDrank $od
+     */
+    public function removeOd(\AppBundle\Entity\OrderDrank $od)
+    {
+    	//sms type ID 4 is mainstock 
+    	if ($this->getOrdertype()->getSmstypeId() == 4) //
+    	{
+    		//$em = $this->getDoctrine()->getManager();
+    		 
+    		// get each drink
+    		 
+    		 
+    		// for each drink get the current stock.
+    		$drankSoort = $od->getDrank();
+            $drankSoort->removeFromStock($od->getHoeveel());
+    		//$drankSoort = $em->getRepository('AppBundle:DrankSoort')->find($colOd->getDrank()->getId());
+    		 
+    	
+    		//$totalStock = $drankSoort->getStock() - $od->getHoeveel();
+    	
+    		// get quantity of each drink
+    		//echo $od->getDrank()->getNaam() . " - " . $od->getHoeveel() . " - " . $drankSoort->getStock() . " - " . $totalStock ."<br>";
+    		//$od->getDrank()->setStock($totalStock);
+    	}
+
+    	$this->od->removeElement($od);
+    }
+
+    /**
+     * Get od
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOd()
+    {
+        return $this->od;
+    }
+
+    /**
+     * @param mixed $od
+     */
+    public function setOd($od)
+    {
+        $this->od = $od;
+    }
+    
+    /**
+     * Get od
+     *
+     * @return string
+     */
+	public function getOrdernotes() {
+		return $this->ordernotes;
+	}
+	public function setOrdernotes($ordernotes) {
+		$this->ordernotes = $ordernotes;
+		return $this;
+	}
+	
+		
+
+    /**
+     * Set festivaldag
+     *
+     * @param \AppBundle\Entity\FestivalDag $festivaldag
+     *
+     * @return Order
+     */
+    public function setFestivaldag(\AppBundle\Entity\FestivalDag $festivaldag = null)
+    {
+        $this->festivaldag = $festivaldag;
+
+        return $this;
+    }
+
+    /**
+     * Get festivaldag
+     *
+     * @return \AppBundle\Entity\FestivalDag
+     */
+    public function getFestivaldag()
+    {
+        return $this->festivaldag;
+    }
+}

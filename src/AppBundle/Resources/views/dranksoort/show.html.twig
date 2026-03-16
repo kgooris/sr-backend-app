@@ -1,0 +1,50 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>DrankSoort</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ drankSoort.id }}</td>
+            </tr>
+            <tr>
+                <th>Naam</th>
+                <td>{{ drankSoort.naam }}</td>
+            </tr>
+            <tr>
+                <th>Omschrijving</th>
+                <td>{{ drankSoort.omschrijving }}</td>
+            </tr>
+            <tr>
+                <th>Foto</th>
+                <td><img src="/{{ imagefolder }}/{{ drankSoort.fotopath }}"/></td>
+            </tr>
+            <tr>
+                <th>Smspositieid</th>
+                <td>{{ drankSoort.smspositieid }}</td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td>{{ drankSoort.stock }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_dranksoort_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_dranksoort_edit', { 'id': drankSoort.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+{% endblock %}

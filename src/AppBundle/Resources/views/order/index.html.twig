@@ -1,0 +1,53 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="sub-header">Order list</h1>
+<div class="table-responsive">
+
+
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Smsbestelnr</th>
+                <th>Smsdatetime</th>
+                <th>OrderType</th>
+                <th>DrankStand</th>
+                <th>Createdat</th>
+                <th>Wie</th>
+                <th>Actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.smsBestelNr }}</td>
+                <td>{% if order.smsDateTime %}{{ order.smsDateTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+				<td>{{ order.OrderType.beschrijving }}</td>
+				<td>{{ order.DrankStand.naam }}</td>
+                <td>{% if order.createdAt %}{{ order.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ order.owner }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_order_show', { 'id': order.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_order_edit', { 'id': order.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <ul>
+        <li>
+            <a href="{{ path('admin_order_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+    </div>
+    
+{% endblock %}

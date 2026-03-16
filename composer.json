@@ -37,7 +37,7 @@
 		"sylius/order-bundle": "*",
 		"whiteoctober/tcpdf-bundle": "^1.0",
 		"knplabs/knp-paginator-bundle": "^2.5",
-		"lexik/form-filter-bundle": "~3.0"
+		"lexik/form-filter-bundle": "~3.0",
 	},
 	"repositories": [{
 			"type": "package",

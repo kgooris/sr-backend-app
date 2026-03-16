@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>OrderDrank list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Hoeveel</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for orderDrank in orderDranks %}
+            <tr>
+                <td><a href="{{ path('admin_orderdrank_show', { 'id': orderDrank.id }) }}">{{ orderDrank.id }}</a></td>
+                <td>{{ orderDrank.hoeveel }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_orderdrank_show', { 'id': orderDrank.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_orderdrank_edit', { 'id': orderDrank.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_orderdrank_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

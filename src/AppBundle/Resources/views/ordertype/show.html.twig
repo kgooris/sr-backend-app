@@ -1,0 +1,42 @@
+{% extends 'AdminDefault/index.html.twig' %}
+
+{% block body %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1>OrderType</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ orderType.id }}</td>
+            </tr>
+            <tr>
+                <th>Beschrijving</th>
+                <td>{{ orderType.beschrijving }}</td>
+            </tr>
+            <tr>
+                <th>Groep</th>
+                <td>{{ orderType.groep }}</td>
+            </tr>
+            <tr>
+                <th>Smstype_id</th>
+                <td>{{ orderType.smstypeid }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_settings_ordertype_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_settings_ordertype_edit', { 'id': orderType.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    </div>
+{% endblock %}

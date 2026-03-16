@@ -121,7 +121,7 @@ class DrankSoort
     public function __toString()
     {
         // TODO: Implement __toString() method.
-        return $this->getEenheid()->getNaam()." - ".$this->getNaam();
+        return $this->getNaam()." - ". $this->getEenheid()->getNaam();
     }
 
     public function __construct()
